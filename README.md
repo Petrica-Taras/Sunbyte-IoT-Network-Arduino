@@ -1,17 +1,26 @@
 # Sunbyte-IoT-Network-Arduino
 This project consists of a small IoT network composed of 3 EtherMega (Arduino Mega 2560) controllers to read sensors and control 3 stepper motors.
 The controllers are connected on an Ethernet network via a switch. The overall goal is to be able to position a telescope (tracking algorithm is
-implemented elsewhere) and to read sensors. This is done autonomously but it is possible to take over from the ground station at some point. 
+implemented elsewhere) and to read sensors. It is done autonomously but it is possible to take over from the ground station at some point. The IoT
+network is intended to work with the ground station software developed at https://github.com/Petrica-Taras/Sunbyte-Ground-Station . 
 This is part of a larger project (Project Sunbyte at University of Sheffield).
 
 # Structure #
 The IoT network is composed of three Ethermega controllers:
 * the main controller: does energy management, diagnostics/monitoring, communication with the ground station
-* the sensors controller: keeps track of all sensors
+* the sensors controller: keeps track of most sensors
 * the motors controller: deals with the motors. Focusing motor should also go here (having a separate controller for it is a bit late now in the project)
 
 All controllers have Ethernet ports and allows communication for manual control or diagnostics purposes. 
 The network is part of a larger setup, powered by batteries, hence the need for energy management. 
+
+# Requirements #
+* 3 Ethermega controllers (https://www.freetronics.com.au/products/ethermega-arduino-mega-2560-compatible-with-onboard-ethernet#.WaIIn9GQyw4)
+or alternatively 3 Arduino Mega 2560 with Ethernet shields. Leonardo boards can be used but make sure you include Ethernet2.h instead of Ethernet.h
+* network switch
+* 8 channels voltage level shifter (for thermal sensors)
+* network switch
+* various sensors
 
 # Technologies used #
 * C (for Arduino controllers)
