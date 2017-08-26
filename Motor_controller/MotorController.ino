@@ -9,7 +9,6 @@
 #include "communication.h"
 #include "readings.h"
 #include "monitoring.h"
-#include "motor_control.h"
 #include "management.h"
 
 void setup() {

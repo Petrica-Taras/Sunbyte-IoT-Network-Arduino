@@ -6,9 +6,3 @@
  * 
  * 
  */
-
-  String TemperatureResultsString() {
-  String content = "";
-
-  return content; 
- }
