@@ -8,6 +8,7 @@
 #include "utils.h"
 #include "communication.h"
 #include "readings.h"
+#include "diagnostics.h"
 #include "monitoring.h"
 #include "management.h"
 
@@ -15,9 +16,12 @@ void setup() {
   initRelayPins();
 
   Serial.begin(9600);
-  
+
+  /**
+   * Initialize sensor objects
+   */
   temperatureSensors.begin(); 
-  
+
   MainsPower.begin(); 
   PCPower.begin();
   TelescopePower.begin();
