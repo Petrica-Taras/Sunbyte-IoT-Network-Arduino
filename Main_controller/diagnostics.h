@@ -16,7 +16,7 @@
  * @param margins - the allowed variation around mean values
  */
 void generateFakeSensorDataRandomNoise(double readings[], int sizeReadings, double meanValues[], double margins[]) {
-    randomSeed();
+    randomSeed(0L);
     long randMin, randMax; 
     for(int i = 0; i < sizeReadings; i++) {
         long randMin = (long) ((meanValues[i] - margins[i]*meanValues[i])*1000.0);
