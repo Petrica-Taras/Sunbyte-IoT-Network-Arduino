@@ -57,8 +57,11 @@ status powerSensorsStatus[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFL
 status lightSensorStatus = OFFLINE; 
 
 /**
- * The status of available devices and boards. Should be correlated with the device enumeration type above. 
+ * The status of available devices and boards. Should be correlated with the device enumeration type above or the deviceLabels string. 
  * The main controller (index 3/position 4) is always ONLINE because running this code assumes it implicitly. 
  */
-status devices[] = {OFFLINE, OFFLINE, OFFLINE, ONLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; //!< correlate with device enumeration
+status devices[] = {OFFLINE, OFFLINE, OFFLINE, ONLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; 
+
+String deviceLabels[] = {"PC", "Andor Camera", "Raspberry Pi", "Main Controller", "Telescope Heating", "Sensor Controller", "Motor Controller", "Motor Azimuth", "Motor Elevation", "Motor Focusing"};
+int noOfDevices = 10;
 
