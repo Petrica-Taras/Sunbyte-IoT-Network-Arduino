@@ -14,28 +14,32 @@
  * - number of sensors for each quantity
  */
 
-const byte noOfTemperatureSensors = 1;
-const byte noOfCurrentSensors = 3;
-const byte noOfVoltageSensors = 3;
-const byte noOfPowerSensors = 3;
+const byte noOfTemperatureSensors = 7;
+const byte noOfPowerSensors = 7;
 
-const byte noOfRelays = 4; 
+const byte noOfRelays = 7; 
 
-String temperatureSensorsLabels[] = {"Motor"}; //!< size needs to be correlated with no of temperature sensors available
-String currentSensorsLabels[] = {"Motor", "PC", "Raspberry PI"}; //!< size needs to be correlated with no of current sensors available
-String voltageSensorsLabels[] = {"Motor", "PC", "Raspberry PI"}; //!< size needs to be correlated with no of voltage sensors available
-String powerSensorsLabels[] = {"Motor", "PC", "Raspberry PI"};
+String name = "Main Controller"; //!= controller label for identification 
+String ip = "";
+String MAC = ""; 
+
+String temperatureSensorsLabels[] = {"Motor Azimuth", "Motor Elevation", "Raspberry Pi", "PC", "Camera", "Telescope", "Outside"}; //!< everything we measure
+String powerSensorsLabels[] = {"Main", "Motor Azimuth", "Motor Elevation", "Raspberry Pi", "PC", "Telescope", "Camera"}; //!< All current/voltage sensors
+
+String relayLabels[] = {"Motors", "PC", "Camera", "Raspberry Pi", "Telescope", "Sensor Controller", "Motor Controller"};
 
 String logFile = "log.txt"; 
 
-int relayPins[] = {22, 23, 24, 25};
-int currentSensorsPins[] = {A3, A4, A5};
-int voltageSensorsPins[]= {A3, A4, A5}; //!< same as the current ones as they are read from the same sensors
-int temperatureSensorPin = 2; //!< on Digital/PWM section of Ethermega
+int relayPins[] = {22, 23, 24, 25, 26, 27, 28};
+int microSDPins[] = {50, 51, 52, 53}; //!< for EtherMega/Arduino Mega only - change controller, change these pins!
+
+int temperatureSensorPin = 2; //!< because the thermocouples we use can be put on the same dataline
 
 double temperaturesThresholds[] = {65, 70, 55}; //!< Motor, PC, Raspberry Pi temperature thresholds
-double powerThresholds[] = {8, 10, 55}; //!< Motor, PC, Raspberry Pi power thresholds
+double powerThresholds[] = {40, 60, 60, 10, 40, 2, 2}; //!< Motors, PC, Camera, Raspberry Pi, telescope, sensors and motors (combined) power thresholds
 
-long kickIn = 60L*1*1000; //!< time to reach vacuum and hence start testing (so far only the main controller is online)
-long temperatureSamplingTime = 30000L; //!< 
-int microSDPins[] = {50, 51, 52, 53}; //!< for EtherMega/Arduino Mega only - change controller, change these pins!
+long kickIn = 60L*1*1000; //!< time to reach the proper altitude and hence start the rest of experiment (until now only the main controller is online)
+long kickOut = 100L*1*1000; //! time to safely shutdown the experiment just before battery cutoff (descent phase)
+
+long temperatureSamplingTime = 10000L; //!< sample the temperature every 10 seconds 
+long powerSamplingTime = 10000L; //!< sample the current/voltage every 10 seconds 
