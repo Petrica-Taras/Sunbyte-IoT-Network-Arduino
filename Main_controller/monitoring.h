@@ -19,14 +19,14 @@
 #include <SPI.h>
 #include <SD.h>
 
-boolean Log2Serial(byte event) {
+boolean Log2Serial(logFlags flags) {
 String content = ""; 
   
-  switch(event) {
-    case 0: //!< at the beginning
+  switch(flags) {
+    case INIT: //!< at the beginning
        content += "Session started!\n--------------------------------------------------------------------\n\n";       
        break;
-    case 1: //!< read temperature sensors:
+    case READ_TEMPERATURE: //!< read temperature sensors:
        content += "Event: Temperature sensor readings at ";
        content += String(millis()/1000);
        content += " seconds\n";
@@ -38,24 +38,24 @@ String content = "";
            }
        content += "--------------------------------------------------------------------"; 
        break;   
-    case 2: //!< currents
+    case READ_CURRENT: //!< currents
        content += "Event: Current sensor readings at ";
        content += String(millis()/1000);
        content += " seconds\n";
-       for(int i = 0; i < noOfCurrentSensors; i++) {
-           content += String(currentSensorsLabels[i]);
+       for(int i = 0; i < noOfPowerSensors; i++) {
+           content += String(powerSensorsLabels[i]);
            content += ": ";
            content += String(currentReadings[i]);
            content += "\n";
            }
        content += "--------------------------------------------------------------------"; 
        break;   
-    case 3: //!< voltages
+    case READ_VOLTAGE: //!< voltages
        content += "Event: Voltage sensor readings at ";
        content += String(millis()/1000);
        content += " seconds\n";
-       for(int i = 0; i < noOfVoltageSensors; i++) {
-           content += String(voltageSensorsLabels[i]);
+       for(int i = 0; i < noOfPowerSensors; i++) {
+           content += String(powerSensorsLabels[i]);
            content += ": ";
            content += String(voltageReadings[i]);
            content += "\n";
@@ -79,14 +79,14 @@ String content = "";
   return true; 
 }
 
-boolean Log2microSD(byte event) {
+boolean Log2microSD(logFlags flags) {
   String content = ""; 
   
-  switch(event) {
-    case 0: //!< at the beginning
+  switch(flags) {
+    case INIT: //!< at the beginning
        content += "Session started!\n--------------------------------------------------------------------\n\n";       
        break;
-    case 1: //!< read temperature sensors:
+    case READ_TEMPERATURE: //!< read temperature sensors:
        content += "Event: Temperature sensor readings at ";
        content += String(millis()/1000);
        content += " seconds\n";
@@ -98,24 +98,24 @@ boolean Log2microSD(byte event) {
            }
        content += "--------------------------------------------------------------------\n"; 
        break;   
-    case 2: //!< currents
+    case READ_CURRENT: //!< currents
        content += "Event: Current sensor readings at ";
        content += String(millis()/1000);
        content += " seconds\n";
-       for(int i = 0; i < noOfCurrentSensors; i++) {
-           content += String(currentSensorsLabels[i]);
+       for(int i = 0; i < noOfPowerSensors; i++) {
+           content += String(powerSensorsLabels[i]);
            content += ": ";
            content += String(currentReadings[i]);
            content += "\n";
            }
        content += "--------------------------------------------------------------------\n"; 
        break;   
-    case 3: //!< voltages
+    case READ_VOLTAGE: //!< voltages
        content += "Event: Voltage sensor readings at ";
        content += String(millis()/1000);
        content += " seconds\n";
-       for(int i = 0; i < noOfVoltageSensors; i++) {
-           content += String(voltageSensorsLabels[i]);
+       for(int i = 0; i < noOfPowerSensors; i++) {
+           content += String(powerSensorsLabels[i]);
            content += ": ";
            content += String(voltageReadings[i]);
            content += "\n";

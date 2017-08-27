@@ -15,7 +15,7 @@
  */
 
 const byte noOfTemperatureSensors = 7;
-const byte noOfPowerSensors = 7;
+const byte noOfPowerSensors = 4;
 
 const byte noOfRelays = 7; 
 
@@ -24,7 +24,7 @@ String ip = "";
 String MAC = ""; 
 
 String temperatureSensorsLabels[] = {"Motor Azimuth", "Motor Elevation", "Raspberry Pi", "PC", "Camera", "Telescope", "Outside"}; //!< everything we measure
-String powerSensorsLabels[] = {"Main", "Motor Azimuth", "Motor Elevation", "Raspberry Pi", "PC", "Telescope", "Camera"}; //!< All current/voltage sensors
+String powerSensorsLabels[] = {"Mains", "PC", "Telescope", "Camera"}; //!< current/voltage sensors - if you want more then 4 then buy TCA9548A (I2C multiplexer)
 
 String relayLabels[] = {"Motors", "PC", "Camera", "Raspberry Pi", "Telescope", "Sensor Controller", "Motor Controller"};
 
