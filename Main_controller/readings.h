@@ -55,6 +55,7 @@ void readTemperatures(DallasTemperature sensors) {
         int smalladdr = (addr[6] << 8) | addr[7];
         
         temperatureReadings[s]=sensors.getTempCByIndex(s);
+        // thermalSensorsStatus[s] = ONLINE; //|< but how do you know the order? 
   }
 }
 

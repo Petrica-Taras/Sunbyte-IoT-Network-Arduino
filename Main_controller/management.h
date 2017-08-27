@@ -9,14 +9,12 @@
  * 
  */
 
-typedef enum {PC, ANDOR_CAMERA, R_PI, MAIN_CONTROLLER, TELESCOPE_HEATING, SENSORS_CONTROLLER, MOTOR_CONTROLLER, MOTOR_AZIMUTH, MOTOR_ELEVATION, MOTOR_FOCUSING} device;
-typedef enum {OFFLINE, ONLINE} status;
-
-status thermalSensorsStatus[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; //!< correlate with temperatureSensorsLabels[]
-status powerSensorsStatus[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; //!< correlate with powerSensorsLabels[]
-status lightSensorStatus = OFFLINE; 
-
-typedef enum {ON, OFF} autonoumous; 
+/**
+ * Check system status and returns a 
+ */
+String systemStatus() {
+  
+}
 
 
 

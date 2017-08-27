@@ -2,7 +2,7 @@
  * \author Petrica Taras
  * \author Fernando Alvarez
  * 
- * \brief Every setting can be found here
+ * \brief Every setting can be found here and variables defined here are visible to the rest of the program
  * 
  * Keeps the following:
  * - all sorts of pins (relays, sensors)
@@ -12,6 +12,7 @@
  * ones have priority to avoid damaging the 
  * equipment)
  * - number of sensors for each quantity
+ * - defines the status variables for each device
  */
 
 const byte noOfTemperatureSensors = 7;
@@ -43,3 +44,21 @@ long kickOut = 100L*1*1000; //! time to safely shutdown the experiment just befo
 
 long temperatureSamplingTime = 10000L; //!< sample the temperature every 10 seconds 
 long powerSamplingTime = 10000L; //!< sample the current/voltage every 10 seconds 
+
+/**
+ * Management related functionality. Various flags and enumerations to be used in decision flow structures
+ */
+typedef enum {PC, ANDOR_CAMERA, R_PI, MAIN_CONTROLLER, TELESCOPE_HEATING, SENSORS_CONTROLLER, MOTOR_CONTROLLER, MOTOR_AZIMUTH, MOTOR_ELEVATION, MOTOR_FOCUSING} device;
+typedef enum {OFFLINE, ONLINE} status;
+typedef enum {ON, OFF} autonoumous; 
+
+status thermalSensorsStatus[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; //!< correlate with temperatureSensorsLabels[]
+status powerSensorsStatus[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; //!< correlate with powerSensorsLabels[]
+status lightSensorStatus = OFFLINE; 
+
+/**
+ * The status of available devices and boards. Should be correlated with the device enumeration type above. 
+ * The main controller (index 3/position 4) is always ONLINE because running this code assumes it implicitly. 
+ */
+status devices[] = {OFFLINE, OFFLINE, OFFLINE, ONLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; //!< correlate with device enumeration
+
