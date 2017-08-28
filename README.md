@@ -6,7 +6,7 @@ network is intended to work with the ground station software developed at https:
 This is part of a larger project (Project Sunbyte at University of Sheffield).
 
 # Structure #
-The IoT network is composed of three Ethermega controllers:
+The IoT network is composed of three Ethermega (Arduino Mega 2560 with Ethernet ports and SD cards alogn with other goodies) controllers:
 * the main controller: does energy management, diagnostics/monitoring, communication with the ground station
 * the sensors controller: keeps track of most sensors
 * the motors controller: deals with the motors. Focusing motor should also go here (having a separate controller for it is a bit late now in the project)
@@ -36,7 +36,7 @@ Please see the README.md for each controller to pinpoint where each library goes
 # Recommended practices #
 When working with the code in this directory and you are using another Arduino type (instead of EtherMegas)
 you should make a new branch (say Leonardo if you are using a Leonardo). By no means modify the pin settings and such in the
-settings.h header in the master branch so you can accomodate your particular Arduino, that would be retarded. Speaking of Leonardo, 
+settings.h header in the master branch so you can accomodate your particular Arduino. Speaking of Leonardo, 
 it uses a different (newer) Ethernet library, so when merging back into master only relevant bits will be kept. 
 
 # About Project Sunbyte #
