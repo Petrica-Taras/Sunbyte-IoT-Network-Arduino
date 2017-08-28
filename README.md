@@ -6,7 +6,7 @@ network is intended to work with the ground station software developed at https:
 This is part of a larger project (Project Sunbyte at University of Sheffield).
 
 # Structure #
-The IoT network is composed of three Ethermega (Arduino Mega 2560 with Ethernet ports and SD cards alogn with other goodies) controllers:
+The IoT network is composed of three Ethermega (Arduino Mega 2560 with Ethernet ports and SD cards along with other goodies) controllers:
 * the main controller: does energy management, diagnostics/monitoring, communication with the ground station
 * the sensors controller: keeps track of most sensors
 * the motors controller: deals with the motors. Focusing motor should also go here (having a separate controller for it is a bit late now in the project)
