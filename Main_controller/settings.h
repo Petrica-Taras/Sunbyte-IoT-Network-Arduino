@@ -21,8 +21,11 @@ const byte noOfPowerSensors = 4;
 const byte noOfRelays = 7; 
 
 String name = "Main Controller"; //!= controller label for identification 
-String ip = "";
-String MAC = ""; 
+byte ip[] = { 169, 254, 131, 159 }; // ip in lan
+byte gateway[] = { 0, 0, 0, 0}; // internet access via router
+byte subnet[] = { 255, 255, 0, 0 }; //subnet mask
+
+static uint8_t MAC[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 String temperatureSensorsLabels[] = {"Motor Azimuth", "Motor Elevation", "Raspberry Pi", "PC", "Camera", "Telescope", "Outside"}; //!< everything we measure
 String powerSensorsLabels[] = {"Mains", "PC", "Telescope", "Camera"}; //!< current/voltage sensors - if you want more then 4 then buy TCA9548A (I2C multiplexer)
@@ -65,3 +68,10 @@ status devices[] = {OFFLINE, OFFLINE, OFFLINE, ONLINE, OFFLINE, OFFLINE, OFFLINE
 String deviceLabels[] = {"PC", "Andor Camera", "Raspberry Pi", "Main Controller", "Telescope Heating", "Sensor Controller", "Motor Controller", "Motor Azimuth", "Motor Elevation", "Motor Focusing"};
 int noOfDevices = 10;
 
+/**
+ * Ethernet port settings (or placeholders for later use)
+ */
+#define I2C_ADDRESS 0x50
+int serverPort = 9900;
+String ethernetNetworkLabels[] = {"Main Controller", "Ground Station", "PC", "Raspberry Pi", "Sensor Controller", "Motor Controller"};
+status ethernetNetworkDevices[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE};
