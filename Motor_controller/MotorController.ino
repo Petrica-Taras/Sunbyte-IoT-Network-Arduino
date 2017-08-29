@@ -13,8 +13,6 @@
 
 void setup() {
   initRelayPins();
-  initTemperatureSensorsPins(); 
-  initCurrentSensorsPins();
 
   Serial.begin(9600);
 
