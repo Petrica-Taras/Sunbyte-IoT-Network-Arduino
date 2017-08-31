@@ -7,12 +7,13 @@
 #include "settings.h"
 #include "utils.h"
 #include "communication.h"
+#include "motor_control.h"
+#include "diagnostics.h"
 #include "readings.h"
 #include "monitoring.h"
-#include "management.h"
 
 void setup() {
-  initRelayPins();
+  initMotorPins();
 
   Serial.begin(9600);
 
@@ -22,14 +23,5 @@ void setup() {
 }
 
 void loop() {
-  if(millis() >= kickIn) {
-    digitalWrite(13, HIGH);
-    if(millis()%temperatureSamplingTime == 0) {
-        Log2Serial(1);
-    }
-  }
-  else { // record to Log for every minute passed
-    // if(millis()
-  }
 
 }
