@@ -8,9 +8,9 @@
 #include "utils.h"
 #include "readings.h"
 #include "communication.h"
-#include "diagnostics.h"
-#include "monitoring.h"
 #include "management.h"
+#include "monitoring.h"
+#include "diagnostics.h" //!< natural choice in positioning as it takes data from all other headers
 
 void setup() {
   initRelayPins();
@@ -29,9 +29,12 @@ void setup() {
   TelescopePower.begin();
   AndorCameraPower.begin();
 
+  /**
+   * Initialize Ethernet communication
+   */
   Ethernet.begin(MAC, ip);
   server.begin();
-    
+  
   Log2Serial(INIT); //!< Log2Serial
   /*Log2microSD(INIT);
   if (!SD.begin(microSDPins[3])) {
@@ -45,28 +48,34 @@ void setup() {
 
 }
 
-void loop() {
 /**
  * Just the basic framework of a server/client architecture. 
  * Tested with telnet
+ * 
  */
-EthernetClient client = server.available();
-  if (client) {
-    while (client.connected()) {
-      if (client.available()) {
-       char c = client.read(); //!< send basic commands via this once the communication protocol has been established
+void loop() {
+  client = server.available();    
+  
+  if (client && client.connected()) {
+      char c = client.read(); //!< send basic commands via this once the communication protocol has been established
 
        if(c == 'd') { 
-         Serial.println("d was pressed");
+         Serial.println(systemStatusDecoded());
        } 
        if(c == 'f') {
          // client.println("Testing");
          Serial.println("f was pressed");
-       //} 
-      }
-    }
+         checkConnection(5); 
+         Serial.println(ethernetNetworkDevices[5]);
+       } 
+       if(c == 'x') {
+         // client.println("Testing");
+         Serial.println("x was pressed");
+         client.stop(); //!< was outside the if clause
+       }
+  } else {
+       //Serial.println("no client connected");
   }
-  client.stop();  
 /*  if(millis() >= kickIn) {
     if(millis()%temperatureSamplingTime == 0) {
       
@@ -83,4 +92,5 @@ EthernetClient client = server.available();
     // if(millis()
   }*/
 
+    
 }

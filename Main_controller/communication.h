@@ -46,4 +46,36 @@ void getMACAddress() {
   MAC[5] = readRegister(0xFF);
 }
 
+/**
+ * Needs to be server & client 
+ */
+EthernetClient client; 
+EthernetServer server(serverPort);
 
+
+/*
+ * Check another device on the network (i.e. connection status). Needs ethernetNetworkDevices[] in 
+ * settings.h as it will set items in it. Also it requires ethernetNetworkIPs[] and ethernetNetworkLabels[]
+ * in the same header file.  
+ * 
+ * \returns true if that device is online and false otherwise
+ */
+
+boolean checkConnection(int deviceNo) {
+  if(ethernetNetworkIPs[deviceNo][0] || ethernetNetworkIPs[deviceNo][1] || ethernetNetworkIPs[deviceNo][2] || ethernetNetworkIPs[deviceNo][3]) { 
+    client.connect(ethernetNetworkIPs[deviceNo], 23);
+    if(client.connected()) {
+      ethernetNetworkDevices[deviceNo] = ONLINE;
+      devices[deviceNo] = ONLINE; 
+      // digitalWrite(13, HIGH);
+      // client.println("Yaaaay!");
+      client.stop(); 
+      return true;
+    }
+  }
+  else { //!< make sure is set OFFLINE
+    ethernetNetworkDevices[deviceNo] = OFFLINE;
+    return false;
+  }
+}
+ 

@@ -20,9 +20,12 @@ const byte noOfPowerSensors = 4;
 
 const byte noOfRelays = 7; 
 
-String name = "Main Controller"; //!= controller label for identification 
-byte ip[] = { 169, 254, 131, 159 }; // ip in lan
-byte gateway[] = { 0, 0, 0, 0}; // internet access via router
+/*
+ * local 
+ */
+String name = "Main Controller"; //!< controller label for identification 
+byte ip[] = { 169, 254, 131, 159 }; //!< ip in lan (of this device)
+byte gateway[] = { 169, 254, 131, 160 }; //!< ground station
 byte subnet[] = { 255, 255, 0, 0 }; //subnet mask
 
 static uint8_t MAC[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
@@ -53,7 +56,7 @@ long powerSamplingTime = 10000L; //!< sample the current/voltage every 10 second
  */
 typedef enum {PC, ANDOR_CAMERA, R_PI, MAIN_CONTROLLER, TELESCOPE_HEATING, SENSORS_CONTROLLER, MOTOR_CONTROLLER, MOTOR_AZIMUTH, MOTOR_ELEVATION, MOTOR_FOCUSING} device;
 typedef enum {OFFLINE, ONLINE} status;
-typedef enum {ON, OFF} autonoumous; 
+typedef enum {ON, OFF} is; 
 
 status thermalSensorsStatus[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; //!< correlate with temperatureSensorsLabels[]
 status powerSensorsStatus[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; //!< correlate with powerSensorsLabels[]
@@ -72,6 +75,7 @@ int noOfDevices = 10;
  * Ethernet port settings (or placeholders for later use)
  */
 #define I2C_ADDRESS 0x50
-int serverPort = 9900;
+int serverPort = 23;
 String ethernetNetworkLabels[] = {"Main Controller", "Ground Station", "PC", "Raspberry Pi", "Sensor Controller", "Motor Controller"};
 status ethernetNetworkDevices[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE};
+byte ethernetNetworkIPs[][4] = {{ 169, 254, 131, 159 }, { 169, 254, 131, 160 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 169, 254, 131, 162 }}; 

@@ -63,3 +63,31 @@ void simulateSensorDataWithSlopedVariation(double readings[], int sizeReadings, 
          delay(increment/2);
      }
  }
+
+/**
+ * Check system status and returns a fully human readable string with status concerning 
+ * the diagnostic mode (always on if this function is called), autonoumous mode (read
+ * autonoumous type in management.h), the status of each device (i.e. powered on or off)
+ * It is the human readable version of systemStatusEncoded() from management.h
+ * 
+ * \return a human readable string describing the system wide status of the powered on
+ * devices as well as the diagnostics and autonoumous flags
+ * 
+ * \TODO: add Ethernet connections statuses; correlate with its encoded version and
+ * make sure there is functionality somewhere to detect when an addition to the system
+ * happens (i.e. a device come online). Add another function to check for local sensors
+ * status
+ */
+String systemStatusDecoded() {
+   String result = "\nReporting powered on devices\n";
+   result += "----------------------------------\n";
+   result += "Diagnostic mode: ON\n";
+   result += ((autonoumous == ON)?"Autonomous mode: ON\n":"Autonomous mode: OFF\n");
+   for(int i = 0; i < noOfDevices; i++) {
+       result += deviceLabels[i];    
+       if(devices[i] == ONLINE) result += ": ONLINE\n";
+       else result += ": OFFLINE\n"; 
+   }
+   result += "----------------------------------\n\n";
+   return result; 
+} 
