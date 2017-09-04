@@ -65,7 +65,7 @@ void readPowers(Adafruit_INA219 MainsPower, Adafruit_INA219 PCPower, Adafruit_IN
   double current_mA[] = {MainsPower.getCurrent_mA(), PCPower.getCurrent_mA(), TelescopePower.getCurrent_mA(), AndorCameraPower.getCurrent_mA()};
   double loadvoltage[] = {shuntvoltage[0]/1000+busvoltage[0], shuntvoltage[1]/1000+busvoltage[1], shuntvoltage[2]/1000+busvoltage[2], shuntvoltage[3]/1000+busvoltage[3]};
 
-  for(int i = 0; i < noOfPowerSensors; i++) { // should be i < noOfPowerSensors;
+  for(int i = 0; i < noOfPowerSensors; i++) { 
     currentReadings[i] = current_mA[i];
     voltageReadings[i] = loadvoltage[i];
 

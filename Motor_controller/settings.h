@@ -13,7 +13,8 @@
 #define STEPSELECTPIN 2
 
 #define AZIMUTH 0
-#define ELEVATION 0
+#define ELEVATION 1
+#define FOCUS 2
 
 int noOfMotorPins = 3; //!< for now
 
@@ -25,3 +26,10 @@ int motorPins[][3] = {{3, 5, 8}, {4, 6, 7}};
 int motorFocusingPins[3];
 
 int microSDPins[] = {50, 51, 52}; //!< for EtherMega/Arduino Mega only - change controller, change these pins!
+
+const byte noOfPowerSensors = 3; //!< each motor has its own (order is defined above)
+
+String powerSensorsLabels[] = {"Azimuth", "Elevation", "Focus"}; //!< current/voltage sensors
+String motorsLabels[] = {"Azimuth", "Elevation", "Focus"};
+
+
