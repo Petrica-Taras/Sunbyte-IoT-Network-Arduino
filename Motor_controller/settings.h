@@ -8,16 +8,20 @@
  * - motor pins
  */
 
-#define ONPIN 3
-#define DIRECTIONPIN 5
-#define STEPSELECTPIN 8
-int noOfMotorPins = 3;
+#define ONPIN 0
+#define DIRECTIONPIN 1
+#define STEPSELECTPIN 2
+
+#define AZIMUTH 0
+#define ELEVATION 0
+
+int noOfMotorPins = 3; //!< for now
 
 /**
  * the order is ON pin, direction pin (1- clockwise) and step select (0 - preselected microstepping, 1 - full step)
  */
-int motorAzimuthPins[3];
-int motorElevationPins[] = {ONPIN, DIRECTIONPIN, STEPSELECTPIN};
+int motorPins[][3] = {{3, 5, 8}, {4, 6, 7}};
+
 int motorFocusingPins[3];
 
 int microSDPins[] = {50, 51, 52}; //!< for EtherMega/Arduino Mega only - change controller, change these pins!
