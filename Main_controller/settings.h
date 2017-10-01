@@ -24,9 +24,9 @@ const byte noOfRelays = 7;
  * local 
  */
 String name = "Main Controller"; //!< controller label for identification 
-byte ip[] = { 169, 254, 131, 159 }; //!< ip in lan (of this device)
-byte gateway[] = { 169, 254, 131, 160 }; //!< ground station
-byte subnet[] = { 255, 255, 0, 0 }; //subnet mask
+byte ip[] = { 172, 16, 18, 131 }; //!< ip in lan (of this device)
+byte gateway[] = { 172, 16, 18, 130 }; //!< ground station
+byte subnet[] = { 255, 255, 255, 0 }; //subnet mask
 
 static uint8_t MAC[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
@@ -75,7 +75,7 @@ int noOfDevices = 10;
  * Ethernet port settings (or placeholders for later use)
  */
 #define I2C_ADDRESS 0x50
-int serverPort = 23;
+int serverPort = 9999;
 String ethernetNetworkLabels[] = {"Main Controller", "Ground Station", "PC", "Raspberry Pi", "Sensor Controller", "Motor Controller"};
 status ethernetNetworkDevices[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE};
-byte ethernetNetworkIPs[][4] = {{ 169, 254, 131, 159 }, { 169, 254, 131, 160 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 169, 254, 131, 162 }}; 
+byte ethernetNetworkIPs[][4] = {{ 172,16,18,131 }, { 172,16,18,130 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 169, 254, 131, 162 }}; 

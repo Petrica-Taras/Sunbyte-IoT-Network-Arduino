@@ -12,6 +12,8 @@
 #include "monitoring.h"
 #include "diagnostics.h" //!< natural choice in positioning as it takes data from all other headers
 
+double x;
+
 void setup() {
   initRelayPins();
   
@@ -45,7 +47,7 @@ void setup() {
     Log2microSD(INIT); 
   }*/
 
-
+  randomSeed(0L);
 }
 
 /**
@@ -56,9 +58,13 @@ void setup() {
 void loop() {
   client = server.available();    
   
-  if (client && client.connected()) {
+  if (client) {
+    x = (double) random(0, 1000); 
+    client.println(x); 
+    
       char c = client.read(); //!< send basic commands via this once the communication protocol has been established
 
+      if(client.connected()) {
        if(c == 'd') { 
          Serial.println(systemStatusDecoded());
        } 
@@ -73,6 +79,7 @@ void loop() {
          Serial.println("x was pressed");
          client.stop(); //!< was outside the if clause
        }
+      }
   } else {
        //Serial.println("no client connected");
   }

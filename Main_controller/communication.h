@@ -10,7 +10,17 @@
 #include <SPI.h>
 #include <Ethernet.h>
 
-#define HANDSHAKE 'a'
+
+// command codes from ground station
+#define MAIN_CONNECTED 2000
+#define GET_STATUS 2001
+#define GET_ALL_SENSORS 2002
+#define GET_ALL_TEMPERATURE 2003
+#define GET_ALL_CURRENT 2004
+#define GET_ALL_VOLTAGE 2005
+#define GET_ALL_CURRENT 2006
+#define GET_ALL_CONTROLLERS 2007
+#define GET_ALL_RELAYS 2008
 
 /**
  * Helper to retrieve the MAC address
@@ -63,7 +73,7 @@ EthernetServer server(serverPort);
 
 boolean checkConnection(int deviceNo) {
   if(ethernetNetworkIPs[deviceNo][0] || ethernetNetworkIPs[deviceNo][1] || ethernetNetworkIPs[deviceNo][2] || ethernetNetworkIPs[deviceNo][3]) { 
-    client.connect(ethernetNetworkIPs[deviceNo], 23);
+    client.connect(ethernetNetworkIPs[deviceNo], serverPort);
     if(client.connected()) {
       ethernetNetworkDevices[deviceNo] = ONLINE;
       devices[deviceNo] = ONLINE; 
