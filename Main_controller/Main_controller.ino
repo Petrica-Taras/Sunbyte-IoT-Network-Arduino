@@ -28,7 +28,6 @@ void setup() {
 
   MainsPower.begin(); 
   PCPower.begin();
-  TelescopePower.begin();
   AndorCameraPower.begin();
 
   /**

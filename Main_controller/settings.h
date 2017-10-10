@@ -15,10 +15,10 @@
  * - defines the status variables for each device
  */
 
-const byte noOfTemperatureSensors = 7;
-const byte noOfPowerSensors = 4;
+const byte noOfTemperatureSensors = 6;
+const byte noOfPowerSensors = 3;
 
-const byte noOfRelays = 7; 
+const byte noOfRelays = 6; 
 
 /*
  * local 
@@ -30,10 +30,10 @@ byte subnet[] = { 255, 255, 255, 0 }; //subnet mask
 
 static uint8_t MAC[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-String temperatureSensorsLabels[] = {"Motor Azimuth", "Motor Elevation", "Raspberry Pi", "PC", "Camera", "Telescope", "Outside"}; //!< everything we measure
-String powerSensorsLabels[] = {"Mains", "PC", "Telescope", "Camera"}; //!< current/voltage sensors - if you want more then 4 then buy TCA9548A (I2C multiplexer)
+String temperatureSensorsLabels[] = {"Motor Azimuth", "Motor Elevation", "Raspberry Pi", "PC", "Camera", "Outside"}; //!< everything we measure
+String powerSensorsLabels[] = {"Mains", "PC", "Camera"}; //!< current/voltage sensors - if you want more then 4 then buy TCA9548A (I2C multiplexer)
 
-String relayLabels[] = {"Motors", "PC", "Camera", "Raspberry Pi", "Telescope", "Sensor Controller", "Motor Controller"};
+String relayLabels[] = {"Motors", "PC", "Camera", "Raspberry Pi", "Sensor Controller", "Motor Controller"};
 
 String logFile = "log.txt"; 
 
@@ -54,21 +54,21 @@ long powerSamplingTime = 10000L; //!< sample the current/voltage every 10 second
 /**
  * Management related functionality. Various flags and enumerations to be used in decision flow structures
  */
-typedef enum {PC, ANDOR_CAMERA, R_PI, MAIN_CONTROLLER, TELESCOPE_HEATING, SENSORS_CONTROLLER, MOTOR_CONTROLLER, MOTOR_AZIMUTH, MOTOR_ELEVATION, MOTOR_FOCUSING} device;
+typedef enum {PC, ANDOR_CAMERA, R_PI, MAIN_CONTROLLER,  SENSORS_CONTROLLER, MOTOR_CONTROLLER, MOTOR_AZIMUTH, MOTOR_ELEVATION, MOTOR_FOCUSING} device;
 typedef enum {OFFLINE, ONLINE} status;
 typedef enum {ON, OFF} is; 
 
-status thermalSensorsStatus[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; //!< correlate with temperatureSensorsLabels[]
-status powerSensorsStatus[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; //!< correlate with powerSensorsLabels[]
+status thermalSensorsStatus[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; //!< correlate with temperatureSensorsLabels[]
+status powerSensorsStatus[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; //!< correlate with powerSensorsLabels[]
 status lightSensorStatus = OFFLINE; 
 
 /**
  * The status of available devices and boards. Should be correlated with the device enumeration type above or the deviceLabels string. 
  * The main controller (index 3/position 4) is always ONLINE because running this code assumes it implicitly. 
  */
-status devices[] = {OFFLINE, OFFLINE, OFFLINE, ONLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; 
+status devices[] = {OFFLINE, OFFLINE, OFFLINE, ONLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; 
 
-String deviceLabels[] = {"PC", "Andor Camera", "Raspberry Pi", "Main Controller", "Telescope Heating", "Sensor Controller", "Motor Controller", "Motor Azimuth", "Motor Elevation", "Motor Focusing"};
+String deviceLabels[] = {"PC", "Andor Camera", "Raspberry Pi", "Main Controller", "Sensor Controller", "Motor Controller", "Motor Azimuth", "Motor Elevation", "Motor Focusing"};
 int noOfDevices = 10;
 
 /**
