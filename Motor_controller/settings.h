@@ -28,8 +28,11 @@ int motorFocusingPins[3];
 int microSDPins[] = {50, 51, 52}; //!< for EtherMega/Arduino Mega only - change controller, change these pins!
 
 const byte noOfPowerSensors = 3; //!< each motor has its own (order is defined above)
+const byte noOf9DOFSensors = 2;
 
 String powerSensorsLabels[] = {"Azimuth", "Elevation", "Focus"}; //!< current/voltage sensors
 String motorsLabels[] = {"Azimuth", "Elevation", "Focus"};
+
+String s9DOFSensorsLabels[] = {"Telescope", "Outside"};
 
 

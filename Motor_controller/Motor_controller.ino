@@ -23,5 +23,13 @@ void setup() {
 }
 
 void loop() {
-
+  if(millis() >= kickIn) {
+    digitalWrite(13, HIGH);
+    if(millis()%temperatureSamplingTime == 0) {
+        Log2Serial(1);
+    }
+  }
+  else { // record to Log for every minute passed
+    // if(millis()
+  }
 }
