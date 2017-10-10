@@ -17,7 +17,7 @@ typedef enum {INIT, READ_TEMPERATURE, READ_CURRENT, READ_VOLTAGE, READ_POWER} lo
 /**
  * Create placeholders for data and initialize objects for temperature and power
  */
-double temperatureReadings[] = {NAN, NAN, NAN, NAN, NAN, NAN, NAN}; //!< sensors order specified in settings.h in temperatureSensorsLabels
+double temperatureReadings[] = {NAN, NAN, NAN, NAN, NAN, NAN}; //!< sensors order specified in settings.h in temperatureSensorsLabels
 /**
  * TODO: the mains sensor can measure up to 26 V, but the battery voltage is 28 :( . Also current wise is limited to 3 Amps (expected drain is 1.8A x 3)
  */
@@ -29,9 +29,10 @@ double powerReadings[] = {NAN, NAN, NAN}; //!< "Mains", "PC", "Camera"
 OneWire oneWire(temperatureSensorPin);
 DallasTemperature temperatureSensors(&oneWire);
 
-Adafruit_INA219 MainsPower; //!< this goes directly on the I2C bus, no pin necessary!
-Adafruit_INA219 PCPower(0x41);
-Adafruit_INA219 AndorCameraPower(0x45); // (0x44)
+Adafruit_INA219 Battery1; //!< this goes directly on the I2C bus, no pin necessary!
+Adafruit_INA219 Battery2(0x41);
+Adafruit_INA219 PCPower(0x44);
+Adafruit_INA219 AndorCameraPower(0x45); 
 
 void initRelayPins() {
   for(byte i = 0; i < noOfRelays; i++) {
@@ -58,11 +59,11 @@ void readTemperatures(DallasTemperature sensors) {
   }
 }
 
-void readPowers(Adafruit_INA219 MainsPower, Adafruit_INA219 PCPower, Adafruit_INA219 AndorCameraPower) {  
-  double shuntvoltage[] = {MainsPower.getShuntVoltage_mV(), PCPower.getShuntVoltage_mV(),  AndorCameraPower.getShuntVoltage_mV()};
-  double busvoltage[] = {MainsPower.getBusVoltage_V(), PCPower.getBusVoltage_V(), AndorCameraPower.getBusVoltage_V()};
-  double current_mA[] = {MainsPower.getCurrent_mA(), PCPower.getCurrent_mA(), AndorCameraPower.getCurrent_mA()};
-  double loadvoltage[] = {shuntvoltage[0]/1000+busvoltage[0], shuntvoltage[1]/1000+busvoltage[1], shuntvoltage[2]/1000+busvoltage[2]};
+void readPowers(Adafruit_INA219 Battery1, Adafruit_INA219 Battery2, Adafruit_INA219 PCPower, Adafruit_INA219 AndorCameraPower) {  
+  double shuntvoltage[] = {Battery1.getShuntVoltage_mV(), Battery2.getShuntVoltage_mV(), PCPower.getShuntVoltage_mV(),  AndorCameraPower.getShuntVoltage_mV()};
+  double busvoltage[] = {Battery1.getBusVoltage_V(), Battery2.getShuntVoltage_mV(), PCPower.getBusVoltage_V(), AndorCameraPower.getBusVoltage_V()};
+  double current_mA[] = {Battery1.getCurrent_mA(), Battery2.getShuntVoltage_mV(), PCPower.getCurrent_mA(), AndorCameraPower.getCurrent_mA()};
+  double loadvoltage[] = {shuntvoltage[0]/1000+busvoltage[0], shuntvoltage[1]/1000+busvoltage[1], shuntvoltage[2]/1000+busvoltage[2], shuntvoltage[3]/1000+busvoltage[3]};
 
   for(int i = 0; i < noOfPowerSensors; i++) { 
     currentReadings[i] = current_mA[i];

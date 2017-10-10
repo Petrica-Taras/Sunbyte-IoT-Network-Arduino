@@ -15,10 +15,10 @@
  * - defines the status variables for each device
  */
 
-const byte noOfTemperatureSensors = 6;
+const byte noOfTemperatureSensors = 5;
 const byte noOfPowerSensors = 3;
 
-const byte noOfRelays = 6; 
+const byte noOfRelays = 4; //!< 4 here and 2 on the motor controller one
 
 /*
  * local 
@@ -30,20 +30,20 @@ byte subnet[] = { 255, 255, 255, 0 }; //subnet mask
 
 static uint8_t MAC[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-String temperatureSensorsLabels[] = {"Motor Azimuth", "Motor Elevation", "Raspberry Pi", "PC", "Camera", "Outside"}; //!< everything we measure
-String powerSensorsLabels[] = {"Mains", "PC", "Camera"}; //!< current/voltage sensors - if you want more then 4 then buy TCA9548A (I2C multiplexer)
+String temperatureSensorsLabels[] = {"Motor Azimuth", "Box", "PC", "Camera", "Outside"}; //!< everything we measure
+String powerSensorsLabels[] = {"Battery 1", "Battery 2", "PC", "Camera"}; //!< current/voltage sensors - if you want more then 4 then buy TCA9548A (I2C multiplexer)
 
-String relayLabels[] = {"Motors", "PC", "Camera", "Raspberry Pi", "Sensor Controller", "Motor Controller"};
+String relayLabels[] = {"PC", "Camera", "Raspberry Pi", "Motor Controller"};
 
 String logFile = "log.txt"; 
 
-int relayPins[] = {22, 23, 24, 25, 26, 27, 28};
+int relayPins[] = {22, 23, 24, 25};
 int microSDPins[] = {50, 51, 52, 53}; //!< for EtherMega/Arduino Mega only - change controller, change these pins!
 
 int temperatureSensorPin = 2; //!< because the thermocouples we use can be put on the same dataline
 
 double temperaturesThresholds[] = {65, 70, 55}; //!< Motor, PC, Raspberry Pi temperature thresholds
-double powerThresholds[] = {40, 60, 60, 10, 40, 2, 2}; //!< Motors, PC, Camera, Raspberry Pi, telescope, sensors and motors (combined) power thresholds
+double powerThresholds[] = {40, 60, 60, 10, 2, 2}; //!< Motors, PC, Camera, Raspberry Pi, telescope, sensors and motors (combined) power thresholds
 
 long kickIn = 60L*1*1000; //!< time to reach the proper altitude and hence start the rest of experiment (until now only the main controller is online)
 long kickOut = 100L*1*1000; //! time to safely shutdown the experiment just before battery cutoff (descent phase)
@@ -54,28 +54,27 @@ long powerSamplingTime = 10000L; //!< sample the current/voltage every 10 second
 /**
  * Management related functionality. Various flags and enumerations to be used in decision flow structures
  */
-typedef enum {PC, ANDOR_CAMERA, R_PI, MAIN_CONTROLLER,  SENSORS_CONTROLLER, MOTOR_CONTROLLER, MOTOR_AZIMUTH, MOTOR_ELEVATION, MOTOR_FOCUSING} device;
+typedef enum {PC, ANDOR_CAMERA, R_PI, MAIN_CONTROLLER, MOTOR_CONTROLLER, MOTOR_AZIMUTH, MOTOR_ELEVATION} device;
 typedef enum {OFFLINE, ONLINE} status;
 typedef enum {ON, OFF} is; 
 
-status thermalSensorsStatus[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; //!< correlate with temperatureSensorsLabels[]
+status thermalSensorsStatus[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; //!< correlate with temperatureSensorsLabels[]
 status powerSensorsStatus[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; //!< correlate with powerSensorsLabels[]
-status lightSensorStatus = OFFLINE; 
 
 /**
  * The status of available devices and boards. Should be correlated with the device enumeration type above or the deviceLabels string. 
  * The main controller (index 3/position 4) is always ONLINE because running this code assumes it implicitly. 
  */
-status devices[] = {OFFLINE, OFFLINE, OFFLINE, ONLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE}; 
+status devices[] = {OFFLINE, OFFLINE, OFFLINE, ONLINE, OFFLINE, OFFLINE, OFFLINE}; 
 
-String deviceLabels[] = {"PC", "Andor Camera", "Raspberry Pi", "Main Controller", "Sensor Controller", "Motor Controller", "Motor Azimuth", "Motor Elevation", "Motor Focusing"};
-int noOfDevices = 10;
+String deviceLabels[] = {"PC", "Andor Camera", "Raspberry Pi", "Main Controller", "Motor Controller", "Motor Azimuth", "Motor Elevation"};
+int noOfDevices = 7;
 
 /**
  * Ethernet port settings (or placeholders for later use)
  */
 #define I2C_ADDRESS 0x50
 int serverPort = 9999;
-String ethernetNetworkLabels[] = {"Main Controller", "Ground Station", "PC", "Raspberry Pi", "Sensor Controller", "Motor Controller"};
+String ethernetNetworkLabels[] = {"Main Controller", "Ground Station", "PC", "Raspberry Pi", "Motor Controller"};
 status ethernetNetworkDevices[] = {OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE, OFFLINE};
-byte ethernetNetworkIPs[][4] = {{ 172,16,18,131 }, { 172,16,18,130 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 169, 254, 131, 162 }}; 
+byte ethernetNetworkIPs[][4] = {{ 172,16,18,131 }, { 172,16,18,130 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 169, 254, 131, 162 }}; 

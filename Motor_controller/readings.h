@@ -14,7 +14,6 @@
  */
 Adafruit_INA219 elevMotor;       
 Adafruit_INA219 azimMotor(0x41); 
-Adafruit_INA219 focusMotor(0x44);
 
 void initMotorPins() {
     for(byte i = 0; i < noOfMotorPins; i++) {
@@ -27,11 +26,11 @@ double currentReadings[] = {NAN, NAN, NAN}; //!< correlate with powerSensorsLabe
 double voltageReadings[] = {NAN, NAN, NAN}; //!< just three motors
 double powerReadings[] = {NAN, NAN, NAN}; //!< "Azimuth", "Elevation", "Focus"
 
-void readPowers(Adafruit_INA219 elevMotor, Adafruit_INA219 azimMotor, Adafruit_INA219 focusMotor) {  
-  double shuntvoltage[] = {elevMotor.getShuntVoltage_mV(), azimMotor.getShuntVoltage_mV(), focusMotor.getShuntVoltage_mV()};
-  double busvoltage[] = {elevMotor.getBusVoltage_V(), azimMotor.getBusVoltage_V(), focusMotor.getBusVoltage_V()};
-  double current_mA[] = {elevMotor.getCurrent_mA(), azimMotor.getCurrent_mA(), focusMotor.getCurrent_mA()};
-  double loadvoltage[] = {shuntvoltage[0]/1000+busvoltage[0], shuntvoltage[1]/1000+busvoltage[1], shuntvoltage[2]/1000+busvoltage[2]};
+void readPowers(Adafruit_INA219 elevMotor, Adafruit_INA219 azimMotor) {  
+  double shuntvoltage[] = {elevMotor.getShuntVoltage_mV(), azimMotor.getShuntVoltage_mV()};
+  double busvoltage[] = {elevMotor.getBusVoltage_V(), azimMotor.getBusVoltage_V()};
+  double current_mA[] = {elevMotor.getCurrent_mA(), azimMotor.getCurrent_mA()};
+  double loadvoltage[] = {shuntvoltage[0]/1000+busvoltage[0], shuntvoltage[1]/1000+busvoltage[1]};
 
   for(int i = 0; i < noOfPowerSensors; i++) { 
     currentReadings[i] = current_mA[i];
